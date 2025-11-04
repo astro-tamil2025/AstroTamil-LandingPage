@@ -24,3 +24,22 @@ body {
   color: var(--foreground);
   font-family: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
+
+/* Custom scrollbar for horoscope section */
+.horoscope-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.horoscope-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.horoscope-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.horoscope-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}

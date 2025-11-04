@@ -1,0 +1,255 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
+
+type ZodiacSign = "ARIES" | "TAURUS" | "GEMINI" | "CANCER" | "LEO" | "VIRGO" | "LIBRA" | "SCORPIO" | "SAGITTARIUS" | "CAPRICORN" | "AQUARIUS" | "PISCES";
+type HoroscopeType = "GENERAL" | "CAREER" | "LOVE";
+
+const ZODIAC_SIGNS: { name: ZodiacSign; icon: string }[] = [
+    { name: "ARIES", icon: "/assets/zodiac-sign-icons/aries.svg" },
+    { name: "TAURUS", icon: "/assets/zodiac-sign-icons/taurus.svg" },
+    { name: "GEMINI", icon: "/assets/zodiac-sign-icons/gemini.svg" },
+    { name: "CANCER", icon: "/assets/zodiac-sign-icons/cancer.svg" },
+    { name: "LEO", icon: "/assets/zodiac-sign-icons/leo.svg" },
+    { name: "VIRGO", icon: "/assets/zodiac-sign-icons/virgo.svg" },
+    { name: "LIBRA", icon: "/assets/zodiac-sign-icons/libra.svg" },
+    { name: "SCORPIO", icon: "/assets/zodiac-sign-icons/scorpio.svg" },
+    { name: "SAGITTARIUS", icon: "/assets/zodiac-sign-icons/sagittarius.svg" },
+    { name: "CAPRICORN", icon: "/assets/zodiac-sign-icons/capricorn.svg" },
+    { name: "AQUARIUS", icon: "/assets/zodiac-sign-icons/aquarius.svg" },
+    { name: "PISCES", icon: "/assets/zodiac-sign-icons/pisces.svg" },
+];
+
+const HOROSCOPE_TYPES: HoroscopeType[] = ["GENERAL", "CAREER", "LOVE"];
+
+const HOROSCOPE_CONTENT = {
+    GENERAL: {
+        LEO: `The stars align to bring you clarity and renewed purpose today. Unexpected opportunities in personal life, fostering growth and deeper connections. Your intuition is sharp, guiding you through decisions. Embrace change and forge ahead for a day filled with positive energy.`,
+    },
+    CAREER: {
+        LEO: `Professionally, collaborations prove fruitful, and creative ideas gain recognition. Financially, minor windfalls or positive developments tend to hesitants. Remember to prioritize self-care and maintain balance.`,
+    },
+    LOVE: {
+        LEO: `Your lucky color is gold, and lucky number is 7.`,
+    },
+};
+
+export default function DailyHoroscope() {
+    const [selectedSign, setSelectedSign] = useState<ZodiacSign>("LEO");
+    const [selectedType, setSelectedType] = useState<HoroscopeType>("GENERAL");
+
+    const currentContent = HOROSCOPE_CONTENT[selectedType]?.[selectedSign] || "";
+
+    return (
+        <section className="relative min-h-[600px] sm:min-h-[700px] overflow-hidden">
+            {/* Background: custom color for this section */}
+            <div className="absolute inset-0 -z-10">
+                {/* Mobile: Simple gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#F7E9A8] via-[#F7E9A8] to-[#FDFDF5] lg:hidden" />
+                {/* Desktop: Solid yellow background (semicircle will overlay) */}
+                <div className="absolute inset-0 bg-[#F7E9A8] hidden lg:block" />
+            </div>
+
+            {/* White semicircle divider - creates light area at bottom (desktop only) */}
+            <div className="hidden lg:block absolute inset-0 -z-10 overflow-hidden">
+                <svg
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120%] h-full"
+                    viewBox="0 0 1728 800"
+                    preserveAspectRatio="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M0,800 A720,650 0 0,1 1728,800 L1728,800 L0,800 Z"
+                        fill="#FDFDF5"
+                    />
+                </svg>
+            </div>
+
+            {/* Decorative stars and ellipses at the top (same as hero section) */}
+            <img src="/assets/hero-icons/Star 1.svg" alt="" className="pointer-events-none select-none absolute top-6 left-2 w-3 opacity-80 sm:top-6 sm:left-6 sm:w-6 sm:opacity-100 drop-shadow-[0_0_2px_rgba(255,255,255,0.7)]" />
+            <img src="/assets/hero-icons/Star 2.svg" alt="" className="pointer-events-none select-none absolute top-10 left-12 w-3 opacity-80 sm:top-14 sm:left-20 sm:w-6 sm:opacity-100 drop-shadow-[0_0_2px_rgba(255,255,255,0.7)]" />
+            <img src="/assets/hero-icons/Ellipse 2.svg" alt="" className="pointer-events-none select-none absolute top-14 left-4 w-4 opacity-80 sm:top-10 sm:left-10 sm:w-6 sm:opacity-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.6)]" />
+            <img src="/assets/hero-icons/Ellipse 5.svg" alt="" className="pointer-events-none select-none absolute top-20 left-3 w-3 opacity-80 sm:top-20 sm:left-8 sm:w-4 sm:opacity-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.6)]" />
+            <img src="/assets/hero-icons/Ellipse 6.svg" alt="" className="pointer-events-none select-none absolute top-12 left-24 w-3 opacity-80 sm:top-7 sm:left-28 sm:w-4 sm:opacity-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.6)]" />
+
+            <img src="/assets/hero-icons/Star 3.svg" alt="" className="pointer-events-none select-none absolute top-6 right-2 w-3 opacity-80 sm:top-8 sm:right-10 sm:w-6 sm:opacity-100 drop-shadow-[0_0_2px_rgba(255,255,255,0.7)]" />
+            <img src="/assets/hero-icons/Star 4.svg" alt="" className="pointer-events-none select-none absolute top-14 right-6 w-3 opacity-80 sm:top-16 sm:right-24 sm:w-6 sm:opacity-100 drop-shadow-[0_0_2px_rgba(255,255,255,0.7)]" />
+            <img src="/assets/hero-icons/Star 5.svg" alt="" className="pointer-events-none select-none absolute top-10 right-16 w-3 opacity-80 sm:top-10 sm:right-32 sm:w-6 sm:opacity-100 drop-shadow-[0_0_2px_rgba(255,255,255,0.7)]" />
+            <img src="/assets/hero-icons/Ellipse 10.svg" alt="" className="pointer-events-none select-none absolute top-20 right-6 w-3 opacity-80 sm:top-12 sm:right-12 sm:w-4 sm:opacity-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.6)]" />
+            <img src="/assets/hero-icons/Ellipse 11.svg" alt="" className="pointer-events-none select-none absolute top-24 right-16 w-3 opacity-80 sm:top-24 sm:right-20 sm:w-4 sm:opacity-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.6)]" />
+            <img src="/assets/hero-icons/Ellipse 12.svg" alt="" className="pointer-events-none select-none absolute top-14 right-28 w-3 opacity-80 sm:top-16 sm:right-36 sm:w-4 sm:opacity-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.6)]" />
+
+            {/* Content area */}
+            <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 pt-12 sm:pt-16 pb-16">
+                {/* Header */}
+                <div className="mb-8 sm:mb-12 text-center">
+                    <h2 className="text-[28px] sm:text-[35px] font-bold text-[#555555] mb-2">DAILY HOROSCOPE</h2>
+                    <p className="text-lg sm:text-[22px] text-[#555555]">Unlock Your Cosmic Forecast</p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+                    {/* Column 1: Images in Left Semi-Circle Pattern */}
+                    <div className="hidden lg:flex relative justify-start items-start pt-0">
+                        <div className="relative w-[220px] h-[500px]">
+                            {/* Position images in a left semi-circle arc pattern (curving to the left) */}
+                            {/* Top image - start of arc */}
+                            <Image
+                                src="/assets/daily-horoscope-icons/cancer.svg"
+                                alt="Cancer"
+                                width={130}
+                                height={130}
+                                className="absolute top-0 left-0 w-28 h-28 object-contain"
+                            />
+                            {/* Second image - curving left */}
+                            <Image
+                                src="/assets/daily-horoscope-icons/bull.svg"
+                                alt="Bull"
+                                width={120}
+                                height={120}
+                                className="absolute top-[20%] left-8 w-26 h-26 object-contain"
+                            />
+                            {/* Third image - peak of curve (most left) */}
+                            <Image
+                                src="/assets/daily-horoscope-icons/libra.svg"
+                                alt="Libra"
+                                width={120}
+                                height={120}
+                                className="absolute top-[40%] left-16 w-26 h-26 object-contain"
+                            />
+                            {/* Fourth image - curving back */}
+                            <Image
+                                src="/assets/daily-horoscope-icons/lion.svg"
+                                alt="Lion"
+                                width={120}
+                                height={120}
+                                className="absolute top-[60%] left-8 w-26 h-26 object-contain"
+                            />
+                            {/* Bottom image - end of arc */}
+                            <Image
+                                src="/assets/daily-horoscope-icons/fishes.svg"
+                                alt="Fishes"
+                                width={120}
+                                height={120}
+                                className="absolute top-[80%] left-0 w-26 h-26 object-contain"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Column 2: Select Your Zodiac Sign */}
+                    <div className="lg:col-span-1">
+                        <div className="mb-6 bg-white lg:bg-transparent rounded-2xl p-4 lg:p-0 shadow-lg lg:shadow-none">
+                            <h3 className="text-[16px] sm:text-[18px] font-bold text-[#555555] mb-4">SELECT YOUR ZODIAC SIGN</h3>
+                            
+                            {/* Scrollable Button List */}
+                            <div className="horoscope-scrollbar space-y-2 max-h-[280px] overflow-y-auto pr-2">
+                                {ZODIAC_SIGNS.map((sign) => (
+                                    <button
+                                        key={sign.name}
+                                        onClick={() => setSelectedSign(sign.name)}
+                                        className={`w-full flex items-center gap-2 px-3 py-2 rounded-[12px] transition-all ${
+                                            selectedSign === sign.name
+                                                ? "bg-[#f0df20] shadow-md"
+                                                : "bg-[#f2f6f9] hover:bg-[#f3f6f9]"
+                                        }`}
+                                    >
+                                        <div className="w-5 h-5 rounded-full border border-black flex items-center justify-center flex-shrink-0">
+                                            <Image
+                                                src={sign.icon}
+                                                alt={sign.name}
+                                                width={16}
+                                                height={16}
+                                                className="w-4 h-4 object-contain"
+                                            />
+                                        </div>
+                                        <span className={`text-[14px] ${selectedSign === sign.name ? "font-bold text-black" : "text-black"}`}>
+                                            {sign.name}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Get Horoscope Button */}
+                        <button className="w-full bg-[#f0df20] text-black font-normal text-[13px] py-2.5 px-4 rounded-[20px] hover:bg-[#f0df20]/90 transition-colors shadow-md">
+                            GET HOROSCOPE
+                        </button>
+                    </div>
+
+                    {/* Column 3: Select Horoscope Type */}
+                    <div className="lg:col-span-1">
+                        <div className="mt-12 lg:mt-0 bg-white lg:bg-transparent rounded-2xl p-4 lg:p-0 shadow-lg lg:shadow-none">
+                            <h3 className="text-[16px] sm:text-[18px] font-bold text-[#555555] mb-4">SELECT HOROSCOPE TYPE</h3>
+                            <div className="space-y-2">
+                                {HOROSCOPE_TYPES.map((type) => (
+                                    <button
+                                        key={type}
+                                        onClick={() => setSelectedType(type)}
+                                        className={`w-full flex items-center justify-between px-3 py-2 rounded-[12px] transition-all ${
+                                            selectedType === type
+                                                ? "bg-[#f0df20] shadow-md"
+                                                : "bg-[#f2f6f9] hover:bg-[#f3f6f9]"
+                                        }`}
+                                    >
+                                        <span className={`text-[14px] ${selectedType === type ? "font-bold text-black" : "text-black"}`}>
+                                            {type}
+                                        </span>
+                                        {selectedType === type && (
+                                            <div className="w-3 h-3 rounded-full bg-black/20"></div>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Column 4: Your Daily Forecast Card */}
+                    <div className="lg:col-span-1">
+                        <div className="bg-white lg:bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg">
+                            {/* Date and Title */}
+                            <div className="mb-6">
+                                <h3 className="text-[18px] sm:text-[20px] font-bold text-[#555555] mb-4">YOUR DAILY FORECAST</h3>
+                                <div className="mb-6 relative">
+                                    <div className="flex items-center justify-center">
+                                        <div className="absolute inset-0 flex items-center">
+                                            <div className="h-[1px] flex-1 bg-[#555555]/10"></div>
+                                        </div>
+                                        <p className="relative text-[14px] sm:text-[16px] text-[#555555] whitespace-nowrap px-4 bg-white/80">
+                                            TODAY, NOVEMBER 24, 2023
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Sign Name and Icon */}
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-10 h-10 rounded-full border border-black flex items-center justify-center">
+                                    <Image
+                                        src={ZODIAC_SIGNS.find(s => s.name === selectedSign)?.icon || "/assets/zodiac-sign-icons/leo.svg"}
+                                        alt={selectedSign}
+                                        width={32}
+                                        height={32}
+                                        className="w-8 h-8 object-contain"
+                                    />
+                                </div>
+                                <span className="text-[16px] font-bold text-black">{selectedSign}</span>
+                            </div>
+
+                            {/* Horoscope Type */}
+                            <div className="mb-4">
+                                <p className="text-[16px] font-bold text-[#555555] mb-3">{selectedType} HOROSCOPE</p>
+                            </div>
+
+                            {/* Scrollable Content */}
+                            <div className="horoscope-scrollbar max-h-[200px] sm:max-h-[250px] overflow-y-auto pr-2">
+                                <p className="text-[13px] sm:text-[14px] leading-[17px] text-black whitespace-pre-line font-normal">
+                                    {currentContent}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}

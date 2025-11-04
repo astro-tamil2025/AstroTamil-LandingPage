@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import Logo from "@/assets/header/logo.png";
 
 const NAV_ITEMS = [
 	{ href: "/", label: "Home" },
@@ -22,7 +21,7 @@ export default function Header() {
 			<div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:h-16 sm:px-6">
 				{/* Left: Brand */}
 				<Link href="/" className="flex items-center gap-2" aria-label="AstroTamil Home">
-					<Image src={Logo} alt="AstroTamil logo" className="h-6 w-auto" priority />
+					<Image src="/images/header/logo.png" alt="AstroTamil logo" width={120} height={30} className="h-6 w-auto" priority />
 					<span className="text-[22px] font-normal tracking-tight text-black">AstroTamil</span>
 				</Link>
 
