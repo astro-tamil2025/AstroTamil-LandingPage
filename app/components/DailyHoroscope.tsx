@@ -37,7 +37,10 @@ export default function DailyHoroscope() {
     const [result, setResult] = useState<DailyApiResponse | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [todayLabel, setTodayLabel] = useState<string>("");
+    const [isMounted, setIsMounted] = useState(false);
+    
     useEffect(() => {
+        setIsMounted(true);
         const label = new Date().toLocaleDateString("en-US", {
             weekday: "long",
             year: "numeric",
@@ -226,8 +229,8 @@ export default function DailyHoroscope() {
                                     <div className="absolute inset-0 flex items-center">
                                         <div className="h-[1px] flex-1 bg-[#555555]/10"></div>
                                     </div>
-                                    <p className="relative text-[14px] sm:text-[16px] text-[#555555] whitespace-nowrap px-4 bg-white/80" suppressHydrationWarning>
-                                        {todayLabel ? todayLabel.toUpperCase() : ""}
+                                    <p className="relative text-[14px] sm:text-[16px] text-[#555555] whitespace-nowrap px-4 bg-white/80">
+                                        {isMounted && todayLabel ? todayLabel.toUpperCase() : ""}
                                     </p>
                                 </div>
                             </div>
