@@ -96,3 +96,98 @@ export async function getDailyPrediction(params: { sign: string; datetime: strin
 }
 
 
+export type BirthDetailsParams = {
+  ayanamsa: 1 | 3 | 5; // 1: Lahiri, 3: Raman, 5: KP
+  coordinates: string; // "lat,lng" e.g. "10.214747,78.097626"
+  datetime: string; // ISO 8601, URL-safe (we will use URL to encode)
+  la?: "en" | "ta" | "ml" | "hi";
+};
+
+export async function getBirthDetails(params: BirthDetailsParams) {
+  const accessToken = await fetchAccessToken();
+
+  const url = new URL("https://api.prokerala.com/v2/astrology/birth-details");
+  url.searchParams.set("ayanamsa", String(params.ayanamsa));
+  url.searchParams.set("coordinates", params.coordinates);
+  // URL handles encoding of + in timezone if provided in the string
+  url.searchParams.set("datetime", params.datetime);
+  if (params.la) url.searchParams.set("la", params.la);
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  let resp: Response;
+  try {
+    resp = await fetch(url.toString(), {
+      method: "GET",
+      headers: { Authorization: `Bearer ${accessToken}` },
+      cache: "no-store",
+      signal: controller.signal,
+    });
+  } catch (err: any) {
+    if (err?.name === "AbortError") {
+      throw new Error("Birth details request timed out");
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new Error(`Prokerala birth details failed: ${resp.status} ${text}`);
+  }
+
+  return resp.json();
+}
+
+export type BirthChartParams = {
+  ayanamsa: 1 | 3 | 5; // 1: Lahiri, 3: Raman, 5: KP
+  coordinates: string; // "lat,lng" e.g. "10.214747,78.097626"
+  datetime: string; // ISO 8601, URL-safe
+  chart_type: "rasi"; // Fixed to rasi
+  chart_style: "south-indian"; // Fixed to south-indian
+  format: "svg"; // Fixed to svg
+  la?: "en" | "ta" | "ml" | "hi";
+};
+
+export async function getBirthChart(params: BirthChartParams): Promise<string> {
+  const accessToken = await fetchAccessToken();
+
+  const url = new URL("https://api.prokerala.com/v2/astrology/chart");
+  url.searchParams.set("ayanamsa", String(params.ayanamsa));
+  url.searchParams.set("coordinates", params.coordinates);
+  url.searchParams.set("datetime", params.datetime);
+  url.searchParams.set("chart_type", params.chart_type);
+  url.searchParams.set("chart_style", params.chart_style);
+  url.searchParams.set("format", params.format);
+  if (params.la) url.searchParams.set("la", params.la);
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  let resp: Response;
+  try {
+    resp = await fetch(url.toString(), {
+      method: "GET",
+      headers: { Authorization: `Bearer ${accessToken}` },
+      cache: "no-store",
+      signal: controller.signal,
+    });
+  } catch (err: any) {
+    if (err?.name === "AbortError") {
+      throw new Error("Birth chart request timed out");
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new Error(`Prokerala birth chart failed: ${resp.status} ${text}`);
+  }
+
+  // Return SVG as text
+  return resp.text();
+}
+
+

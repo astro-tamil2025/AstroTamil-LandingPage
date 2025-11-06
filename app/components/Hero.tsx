@@ -33,7 +33,10 @@ function CoinCard({ label, imgSrc }: CoinCardProps) {
     );
 }
 
+import { useRouter } from "next/navigation";
+
 export default function Hero() {
+    const router = useRouter();
     return (
         <section className="relative min-h-[600px] sm:min-h-[700px] overflow-hidden">
             {/* Background: gradient fallback */}
@@ -71,7 +74,7 @@ export default function Hero() {
                             <div className="flex items-start gap-3">
                                 <div className="w-12 flex-none">
                                     <div className="h-12 w-12 rounded-full overflow-hidden">
-                                        <Image src="/images/hero-images/chat-avatar.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
+                                        <Image src="/images/astrologer/guruji-krishnan.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
                                     </div>
                                 </div>
                                 <div className="flex-1 min-w-0">
@@ -95,7 +98,7 @@ export default function Hero() {
                             className="w-[220px] sm:w-[280px] md:w-[320px] h-auto"
                             priority
                         />
-                        <button onClick={() => {}} aria-label="Start chat with astrologer" className="mt-5 inline-flex items-center justify-center rounded-full bg-[#f0df20] px-6 py-2.5 text-sm sm:text-base font-semibold text-black shadow-[0_10px_22px_rgba(240,223,32,0.35)]">
+                        <button onClick={() => router.push("/chat")} aria-label="Start chat with astrologer" className="mt-5 inline-flex items-center justify-center rounded-full bg-[#f0df20] px-6 py-2.5 text-sm sm:text-base font-semibold text-black shadow-[0_10px_22px_rgba(240,223,32,0.35)]">
                             CHAT NOW
                         </button>
                         {/* Chatbot card - mobile placement (below button) */}
@@ -103,7 +106,7 @@ export default function Hero() {
                             <div className="flex items-start gap-3">
                                 <div className="w-12 flex-none">
                                     <div className="h-12 w-12 rounded-full overflow-hidden">
-                                        <Image src="/images/hero-images/chat-avatar.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
+                                        <Image src="/images/astrologer/guruji-krishnan.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
                                     </div>
                                 </div>
                                 <div className="flex-1 min-w-0">

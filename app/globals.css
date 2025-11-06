@@ -43,3 +43,12 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #d1d5db transparent;
 }
+
+/* Hide scrollbar utility for horizontal carousels on mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

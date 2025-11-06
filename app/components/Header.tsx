@@ -16,6 +16,11 @@ export default function Header() {
 	const pathname = usePathname();
 	const [mobileOpen, setMobileOpen] = useState(false);
 
+	// Hide primary header on chat route for immersive chat screen
+	if (pathname.startsWith("/chat")) {
+		return null;
+	}
+
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white">
 			<div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:h-16 sm:px-6">
@@ -47,27 +52,15 @@ export default function Header() {
 					})}
 				</nav>
 
-				{/* Right: Actions */}
-				<div className="hidden items-center gap-3 sm:flex">
-					<Image src="/globe.svg" alt="" width={22} height={22} aria-hidden="true" />
-					<Link
-						className="inline-flex items-center rounded-full bg-[#f3d738] px-4 py-2 text-[13px] font-bold text-black shadow-[inset_0_0_0_1px_#f6d851] hover:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black/50 dark:focus-visible:ring-white/50"
-						href="/login"
-					>
-						Login
-					</Link>
-				</div>
+			{/* Right: Actions (Login removed) */}
+			<div className="hidden items-center gap-3 sm:flex">
+				<Image src="/globe.svg" alt="" width={22} height={22} aria-hidden="true" />
+			</div>
 
 				{/* Mobile actions + hamburger */}
-				<div className="flex items-center gap-3 sm:hidden">
-					<Image src="/globe.svg" alt="" width={22} height={22} aria-hidden="true" />
-					<Link
-						className="inline-flex items-center rounded-full bg-[#f3d738] px-3 py-1.5 text-[12px] font-bold text-black shadow-[inset_0_0_0_1px_#f6d851]"
-						href="/login"
-					>
-						Login
-					</Link>
-					<button
+			<div className="flex items-center gap-3 sm:hidden">
+				<Image src="/globe.svg" alt="" width={22} height={22} aria-hidden="true" />
+				<button
 						className="inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-zinc-100 hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black/50"
 						aria-controls="mobile-nav"
 						aria-expanded={mobileOpen}
