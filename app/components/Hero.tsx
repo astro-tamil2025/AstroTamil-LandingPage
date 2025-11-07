@@ -88,8 +88,8 @@ function Hero() {
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm leading-snug text-black">{t.chatbotGreeting}</p>
                                     <div className="mt-4 flex flex-wrap gap-3">
-                                        <button onClick={() => router.push(`/birth-chart?lang=${lang}`)} aria-label={t.birthChartAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.birthChart}</button>
-                                        <button onClick={() => router.push(`/kundli?lang=${lang}`)} aria-label={t.kundliAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.kundli}</button>
+                                        <button onClick={() => router.push(`/chat?lang=${lang}&intent=birth-details`)} aria-label={t.birthChartAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.birthChart}</button>
+                                        <button onClick={() => router.push(`/chat?lang=${lang}&intent=rasi-chart`)} aria-label={t.kundliAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.kundli}</button>
                                     </div>
                                 </div>
                             </div>
@@ -120,8 +120,8 @@ function Hero() {
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm leading-snug text-black">{t.chatbotGreeting}</p>
                                     <div className="mt-4 flex flex-wrap gap-3">
-                                        <button onClick={() => router.push(`/birth-chart?lang=${lang}`)} aria-label={t.birthChartAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.birthChart}</button>
-                                        <button onClick={() => router.push(`/kundli?lang=${lang}`)} aria-label={t.kundliAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.kundli}</button>
+                                        <button onClick={() => router.push(`/chat?lang=${lang}&intent=birth-details`)} aria-label={t.birthChartAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.birthChart}</button>
+                                        <button onClick={() => router.push(`/chat?lang=${lang}&intent=rasi-chart`)} aria-label={t.kundliAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.kundli}</button>
                                     </div>
                                 </div>
                             </div>

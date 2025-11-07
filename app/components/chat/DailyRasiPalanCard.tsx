@@ -80,7 +80,7 @@ export default function DailyRasiPalanCard({ onSubmit, lang, loading, result, er
       {!showForecast && (
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-lg">
           <h3 className="text-[16px] sm:text-[18px] font-bold text-[#555555] mb-4">{t.selectSign}</h3>
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {ZODIAC_SIGNS.map((sign) => {
               const selected = selectedSign === sign.name;
               return (

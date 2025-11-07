@@ -12,8 +12,6 @@ const translations = {
         yourEmail: "Your Email",
         yourMessage: "Your Message",
         sendMessage: "SEND MESSAGE",
-        supportEmail: "Support Email:",
-        phone: "Phone:",
         tagline: "Your trusted platform for authentic astrological guidance and spiritual wisdom.",
         services: "Services",
         chatAstrologer: "Chat with Astrologer",
@@ -36,8 +34,6 @@ const translations = {
         yourEmail: "உங்கள் மின்னஞ்சல்",
         yourMessage: "உங்கள் செய்தி",
         sendMessage: "செய்தியை அனுப்பவும்",
-        supportEmail: "ஆதரவு மின்னஞ்சல்:",
-        phone: "தொலைபேசி:",
         tagline: "நம்பகமான ஜோதிட வழிகாட்டுதல் மற்றும் ஆன்மீக ஞானத்திற்கான உங்கள் நம்பகமான தளம்.",
         services: "சேவைகள்",
         chatAstrologer: "ஜோதிடருடன் அரட்டை",
@@ -103,8 +99,8 @@ function ContactFooter() {
 
                     {/* Contact Card */}
                     <div className="lg:col-span-2 flex justify-center">
-                        <div className="bg-white/90 backdrop-blur-sm rounded-[24px] shadow-[0_10px_32px_rgba(0,0,0,0.10)] border-2 border-[#555555]/50 px-6 sm:px-10 py-6 sm:py-9 max-w-[640px] w-full min-h-[420px]">
-                            <form className="space-y-4" onSubmit={(e) => e.preventDefault()} aria-label="Contact form">
+                        <div className="bg-white/90 backdrop-blur-sm rounded-[24px] shadow-[0_10px_32px_rgba(0,0,0,0.10)] border-2 border-[#555555]/50 px-6 sm:px-8 py-6 sm:py-7 max-w-[560px] w-full min-h-[360px]">
+                            <form className="space-y-3 sm:space-y-4" onSubmit={(e) => e.preventDefault()} aria-label="Contact form">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <label className="block">
                                         <span className="sr-only">{t.yourName}</span>
@@ -140,13 +136,6 @@ function ContactFooter() {
                                     <button type="submit" className="inline-flex items-center justify-center rounded-[18px] bg-[#f0df20] px-7 py-2.5 text-[14px] font-medium text-black shadow-sm hover:bg-[#f0df20]/90">
                                         {t.sendMessage}
                                     </button>
-                                </div>
-                                <div className="text-center sm:text-left text-[13px] text-[#555555]">
-                                    <p>
-                                        {t.supportEmail} <span className="font-medium">support@cosmicforecast.com</span>
-                                        <br />
-                                        {t.phone} <span className="font-medium">+1 (555) 123-667</span>
-                                    </p>
                                 </div>
                             </form>
                         </div>

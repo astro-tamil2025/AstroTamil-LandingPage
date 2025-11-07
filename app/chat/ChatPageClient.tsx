@@ -51,6 +51,7 @@ export default function ChatPageClient() {
   const [lang, setLang] = useState<"ta" | "en">(initialLang);
   const unmountedRef = useRef(false);
   const activeAbortRef = useRef<AbortController | null>(null);
+  const processedIntentRef = useRef<string | null>(null);
   
   // Timer and access control state
   const [timerSeconds, setTimerSeconds] = useState<number | null>(null);
@@ -525,6 +526,35 @@ export default function ChatPageClient() {
     },
     [sendMessage]
   );
+
+  useEffect(() => {
+    const intentParam = searchParams.get("intent");
+    if (!intentParam || processedIntentRef.current === intentParam) {
+      return;
+    }
+
+    processedIntentRef.current = intentParam;
+
+    let phrase: string | null = null;
+    switch (intentParam) {
+      case "birth-details":
+        phrase = lang === "ta" ? "பிறந்த விவரங்கள்" : "Birth details";
+        break;
+      case "kundli":
+      case "rasi-chart":
+        phrase = lang === "ta" ? "ராசி விளக்கப்படம்" : "Rasi Chart";
+        break;
+      case "daily-rasi":
+        phrase = lang === "ta" ? "இன்றைய ராசி பலன்" : "Daily Rasi Palan";
+        break;
+      default:
+        phrase = null;
+    }
+
+    if (phrase) {
+      void sendMessage(phrase);
+    }
+  }, [searchParams, lang, sendMessage]);
 
   const handleWaitlistSubmit = useCallback((email: string) => {
     // TODO: Wire up with backend later
