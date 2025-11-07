@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   try {
     const resp = await fetch(url.toString(), {
       headers: {
-        "User-Agent": "AstroTamil/1.0 (contact: support@example.com)",
+        "User-Agent": "Nakshatra Talks/1.0 (contact: support@example.com)",
       },
       cache: "no-store",
       signal: controller.signal,

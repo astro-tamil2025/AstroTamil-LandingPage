@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
       {
         headers: {
           "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-          "X-Title": process.env.NEXT_PUBLIC_SITE_NAME || "AstroTamil",
+          "X-Title": process.env.NEXT_PUBLIC_SITE_NAME || "Nakshatra Talks",
         },
       }
     );

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useLanguage } from "../hooks/useLanguage";
 
 type ZodiacSign = "ARIES" | "TAURUS" | "GEMINI" | "CANCER" | "LEO" | "VIRGO" | "LIBRA" | "SCORPIO" | "SAGITTARIUS" | "CAPRICORN" | "AQUARIUS" | "PISCES";
 type ApiStatus = "idle" | "loading" | "success" | "error";
@@ -31,7 +32,59 @@ type DailyApiResponse = {
     error?: string;
 };
 
-export default function DailyHoroscope() {
+const translations = {
+    en: {
+        title: "DAILY HOROSCOPE",
+        subtitle: "Unlock Your Cosmic Forecast",
+        selectSign: "SELECT YOUR ZODIAC SIGN",
+        getHoroscope: "GET HOROSCOPE",
+        selectSignPrompt: "Select your sign and tap Get Horoscope.",
+        loading: "Loading...",
+        noPrediction: "No prediction available.",
+        zodiacSigns: {
+            ARIES: "ARIES",
+            TAURUS: "TAURUS",
+            GEMINI: "GEMINI",
+            CANCER: "CANCER",
+            LEO: "LEO",
+            VIRGO: "VIRGO",
+            LIBRA: "LIBRA",
+            SCORPIO: "SCORPIO",
+            SAGITTARIUS: "SAGITTARIUS",
+            CAPRICORN: "CAPRICORN",
+            AQUARIUS: "AQUARIUS",
+            PISCES: "PISCES",
+        },
+    },
+    ta: {
+        title: "தினசரி ராசி பலன்",
+        subtitle: "உங்கள் வானியல் முன்னறிவிப்பைத் திறக்கவும்",
+        selectSign: "உங்கள் ராசி அடையாளத்தைத் தேர்ந்தெடுக்கவும்",
+        getHoroscope: "ராசி பலனைப் பெறுங்கள்",
+        selectSignPrompt: "உங்கள் அடையாளத்தைத் தேர்ந்தெடுத்து ராசி பலனைப் பெறுங்கள் என்பதைத் தட்டவும்.",
+        loading: "ஏற்றுகிறது...",
+        noPrediction: "முன்னறிவிப்பு கிடைக்கவில்லை.",
+        zodiacSigns: {
+            ARIES: "மேஷம்",
+            TAURUS: "ரிஷபம்",
+            GEMINI: "மிதுனம்",
+            CANCER: "கடகம்",
+            LEO: "சிம்மம்",
+            VIRGO: "கன்னி",
+            LIBRA: "துலாம்",
+            SCORPIO: "விருச்சிகம்",
+            SAGITTARIUS: "தனுசு",
+            CAPRICORN: "மகரம்",
+            AQUARIUS: "கும்பம்",
+            PISCES: "மீனம்",
+        },
+    },
+};
+
+function DailyHoroscope() {
+    const lang = useLanguage();
+    const t = translations[lang];
+    
     const [selectedSign, setSelectedSign] = useState<ZodiacSign>("LEO");
     const [status, setStatus] = useState<ApiStatus>("idle");
     const [result, setResult] = useState<DailyApiResponse | null>(null);
@@ -41,14 +94,15 @@ export default function DailyHoroscope() {
     
     useEffect(() => {
         setIsMounted(true);
-        const label = new Date().toLocaleDateString("en-US", {
+        const locale = lang === "ta" ? "ta-IN" : "en-US";
+        const label = new Date().toLocaleDateString(locale, {
             weekday: "long",
             year: "numeric",
             month: "long",
             day: "numeric",
         });
         setTodayLabel(label);
-    }, []);
+    }, [lang]);
 
     async function fetchHoroscope() {
         try {
@@ -69,8 +123,19 @@ export default function DailyHoroscope() {
             });
             clearTimeout(timeoutId);
             if (!resp.ok) {
-                const errorData = await resp.json().catch(() => ({} as any));
-                throw new Error((errorData as any)?.error || `Failed to fetch horoscope (${resp.status})`);
+                let errorMessage = `Failed to fetch horoscope (${resp.status})`;
+                try {
+                    const errorData = await resp.json();
+                    errorMessage = (errorData as any)?.error || errorMessage;
+                } catch {
+                    try {
+                        const errorText = await resp.text();
+                        errorMessage = errorText || errorMessage;
+                    } catch {
+                        // Use default error message if both JSON and text parsing fail
+                    }
+                }
+                throw new Error(errorMessage);
             }
             const data: DailyApiResponse = await resp.json();
             setResult(data);
@@ -82,7 +147,7 @@ export default function DailyHoroscope() {
     }
 
     return (
-        <section className="relative min-h-[600px] sm:min-h-[700px] overflow-hidden">
+        <section id="horoscope" className="relative min-h-[600px] sm:min-h-[700px] overflow-hidden scroll-mt-16">
             {/* Background: custom color for this section */}
             <div className="absolute inset-0 -z-10">
                 {/* Mobile: Simple gradient background */}
@@ -126,8 +191,8 @@ export default function DailyHoroscope() {
             <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 pt-12 sm:pt-16 pb-16">
                 {/* Header */}
                 <div className="mb-8 sm:mb-12 text-center">
-                    <h2 className="text-[28px] sm:text-[35px] font-bold text-[#555555] mb-2">DAILY HOROSCOPE</h2>
-                    <p className="text-lg sm:text-[22px] text-[#555555]">Unlock Your Cosmic Forecast</p>
+                    <h2 className="text-[28px] sm:text-[35px] font-bold text-[#555555] mb-2">{t.title}</h2>
+                    <p className="text-lg sm:text-[22px] text-[#555555]">{t.subtitle}</p>
                 </div>
 
                 {/* Two-column layout: left images (decorative), right split top/bottom for cards */}
@@ -170,7 +235,7 @@ export default function DailyHoroscope() {
                     <div className="flex flex-col gap-6 lg:gap-8">
                         {/* TOP: Zodiac grid (two rows) */}
                         <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-lg">
-                            <h3 className="text-[16px] sm:text-[18px] font-bold text-[#555555] mb-4">SELECT YOUR ZODIAC SIGN</h3>
+                            <h3 className="text-[16px] sm:text-[18px] font-bold text-[#555555] mb-4">{t.selectSign}</h3>
                             <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
                                 {ZODIAC_SIGNS.map((sign) => {
                                     const selected = selectedSign === sign.name;
@@ -194,7 +259,7 @@ export default function DailyHoroscope() {
                                                 />
                                             </div>
                                             <span className={`text-[12px] sm:text-[13px] ${selected ? "font-bold text-black" : "text-black"}`}>
-                                                {sign.name}
+                                                {t.zodiacSigns[sign.name]}
                                             </span>
                                         </button>
                                     );
@@ -216,10 +281,10 @@ export default function DailyHoroscope() {
                                             className="w-8 h-8 object-contain"
                                         />
                                     </div>
-                                    <span className="text-[16px] font-bold text-black">{selectedSign}</span>
+                                    <span className="text-[16px] font-bold text-black">{t.zodiacSigns[selectedSign]}</span>
                                 </div>
                                 <button onClick={fetchHoroscope} className="bg-[#f0df20] text-black font-normal text-[13px] py-2 px-4 rounded-[20px] hover:bg-[#f0df20]/90 transition-colors shadow-md">
-                                    GET HOROSCOPE
+                                    {t.getHoroscope}
                                 </button>
                             </div>
 
@@ -238,17 +303,17 @@ export default function DailyHoroscope() {
                             {/* Content */}
                             <div className="horoscope-scrollbar max-h-[220px] sm:max-h-[260px] overflow-y-auto pr-2">
                                 {status === "idle" && (
-                                    <p className="text-[13px] sm:text-[14px] leading-[17px] text-black font-normal">Select your sign and tap Get Horoscope.</p>
+                                    <p className="text-[13px] sm:text-[14px] leading-[17px] text-black font-normal">{t.selectSignPrompt}</p>
                                 )}
                                 {status === "loading" && (
-                                    <p className="text-[13px] sm:text-[14px] leading-[17px] text-black font-normal">Loading...</p>
+                                    <p className="text-[13px] sm:text-[14px] leading-[17px] text-black font-normal">{t.loading}</p>
                                 )}
                                 {status === "error" && (
                                     <p className="text-[13px] sm:text-[14px] leading-[17px] text-red-600 font-normal">{error}</p>
                                 )}
                                 {status === "success" && (
                                     <p className="text-[13px] sm:text-[14px] leading-[17px] text-black font-normal whitespace-pre-line">
-                                        {result?.data?.daily_prediction?.prediction || "No prediction available."}
+                                        {result?.data?.daily_prediction?.prediction || t.noPrediction}
                                     </p>
                                 )}
                             </div>
@@ -259,3 +324,5 @@ export default function DailyHoroscope() {
         </section>
     );
 }
+
+export default DailyHoroscope;

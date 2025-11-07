@@ -1,9 +1,64 @@
 "use client";
 import Image from "next/image";
+import { useLanguage } from "../hooks/useLanguage";
 
-export default function ContactFooter() {
+const translations = {
+    en: {
+        title: "CONTACT US",
+        subtitle: "Get in touch for cosmic insights or support.",
+        description1: "Have questions about your celestial path? Want your personalized reading?",
+        description2: "Fill out the form or contact us directly. Our team here is ready to guide!",
+        yourName: "Your Name",
+        yourEmail: "Your Email",
+        yourMessage: "Your Message",
+        sendMessage: "SEND MESSAGE",
+        supportEmail: "Support Email:",
+        phone: "Phone:",
+        tagline: "Your trusted platform for authentic astrological guidance and spiritual wisdom.",
+        services: "Services",
+        chatAstrologer: "Chat with Astrologer",
+        callAstrologer: "Call Astrologer",
+        freeKundli: "Free Kundli",
+        kundliMatching: "Kundli Matching",
+        support: "Support",
+        helpCenter: "Help Center",
+        contactUs: "Contact Us",
+        privacyPolicy: "Privacy Policy",
+        termsOfService: "Terms of Service",
+        followUs: "Follow Us",
+    },
+    ta: {
+        title: "எங்களைத் தொடர்பு கொள்ளுங்கள்",
+        subtitle: "வானியல் நுண்ணறிவு அல்லது ஆதரவுக்காக எங்களைத் தொடர்பு கொள்ளுங்கள்.",
+        description1: "உங்கள் வானியல் பாதையைப் பற்றி கேள்விகள் உள்ளனவா? உங்கள் தனிப்பயனாக்கப்பட்ட வாசிப்பை விரும்புகிறீர்களா?",
+        description2: "படிவத்தை நிரப்பவும் அல்லது எங்களை நேரடியாகத் தொடர்பு கொள்ளுங்கள். எங்கள் குழு இங்கே வழிநடத்த தயாராக உள்ளது!",
+        yourName: "உங்கள் பெயர்",
+        yourEmail: "உங்கள் மின்னஞ்சல்",
+        yourMessage: "உங்கள் செய்தி",
+        sendMessage: "செய்தியை அனுப்பவும்",
+        supportEmail: "ஆதரவு மின்னஞ்சல்:",
+        phone: "தொலைபேசி:",
+        tagline: "நம்பகமான ஜோதிட வழிகாட்டுதல் மற்றும் ஆன்மீக ஞானத்திற்கான உங்கள் நம்பகமான தளம்.",
+        services: "சேவைகள்",
+        chatAstrologer: "ஜோதிடருடன் அரட்டை",
+        callAstrologer: "ஜோதிடரை அழைக்கவும்",
+        freeKundli: "இலவச குண்டலி",
+        kundliMatching: "குண்டலி பொருத்தம்",
+        support: "ஆதரவு",
+        helpCenter: "உதவி மையம்",
+        contactUs: "எங்களைத் தொடர்பு கொள்ளுங்கள்",
+        privacyPolicy: "தனியுரிமைக் கொள்கை",
+        termsOfService: "சேவை விதிமுறைகள்",
+        followUs: "எங்களைப் பின்தொடரவும்",
+    },
+};
+
+function ContactFooter() {
+    const lang = useLanguage();
+    const t = translations[lang as keyof typeof translations] ?? translations.en;
+    
     return (
-        <section className="relative overflow-hidden">
+        <section id="contact" className="relative overflow-hidden scroll-mt-16">
             {/* Background replicated from DailyHoroscope */}
             <div className="absolute inset-0 -z-10">
                 {/* Mobile gradient */}
@@ -30,8 +85,8 @@ export default function ContactFooter() {
             {/* Content */}
             <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 pt-12 sm:pt-16 pb-0">
                 <div className="text-center mb-6 sm:mb-8">
-                    <h2 className="text-[28px] sm:text-[35px] font-bold text-[#555555]">CONTACT US</h2>
-                    <p className="text-[14px] sm:text-[16px] text-[#555555] mt-2">Get in touch for cosmic insights or support.</p>
+                    <h2 className="text-[28px] sm:text-[35px] font-bold text-[#555555]">{t.title}</h2>
+                    <p className="text-[14px] sm:text-[16px] text-[#555555] mt-2">{t.subtitle}</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
@@ -39,10 +94,10 @@ export default function ContactFooter() {
                     <div className="hidden md:block relative">
                         <div className="absolute -inset-4 bg-white/70 rounded-[20px] shadow-[0_8px_24px_rgba(0,0,0,0.06)]" aria-hidden="true"></div>
                         <p className="relative text-[#7e796c] text-[16px] leading-7 max-w-md p-2">
-                            Have questions about your celestial path? Want your personalized reading?
+                            {t.description1}
                             <br />
                             <br />
-                            Fill out the form or contact us directly. Our team here is ready to guide!
+                            {t.description2}
                         </p>
                     </div>
 
@@ -52,45 +107,45 @@ export default function ContactFooter() {
                             <form className="space-y-4" onSubmit={(e) => e.preventDefault()} aria-label="Contact form">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <label className="block">
-                                        <span className="sr-only">Your Name</span>
+                                        <span className="sr-only">{t.yourName}</span>
                                         <input
                                             type="text"
                                             name="name"
-                                            placeholder="Your Name"
+                                            placeholder={t.yourName}
                                             className="w-full rounded-[18px] border-2 border-[#f0df20] bg-white px-4 py-3 text-[14px] text-black placeholder:text-black/70 focus:outline-none"
-                                            aria-label="Your Name"
+                                            aria-label={t.yourName}
                                         />
                                     </label>
                                     <label className="block">
-                                        <span className="sr-only">Your Email</span>
+                                        <span className="sr-only">{t.yourEmail}</span>
                                         <input
                                             type="email"
                                             name="email"
-                                            placeholder="Your Email"
+                                            placeholder={t.yourEmail}
                                             className="w-full rounded-[18px] border-2 border-[#f0df20] bg-white px-4 py-3 text-[14px] text-black placeholder:text-black/70 focus:outline-none"
-                                            aria-label="Your Email"
+                                            aria-label={t.yourEmail}
                                         />
                                     </label>
                                 </div>
                                 <label className="block">
-                                    <span className="sr-only">Your Message</span>
+                                    <span className="sr-only">{t.yourMessage}</span>
                                     <textarea
                                         name="message"
-                                        placeholder="Your Message"
+                                        placeholder={t.yourMessage}
                                         className="w-full min-h-[140px] rounded-[18px] border-2 border-[#f0df20] bg-white px-4 py-3 text-[14px] text-black placeholder:text-black/70 focus:outline-none"
-                                        aria-label="Your Message"
+                                        aria-label={t.yourMessage}
                                     />
                                 </label>
                                 <div className="flex items-center justify-center sm:justify-start">
                                     <button type="submit" className="inline-flex items-center justify-center rounded-[18px] bg-[#f0df20] px-7 py-2.5 text-[14px] font-medium text-black shadow-sm hover:bg-[#f0df20]/90">
-                                        SEND MESSAGE
+                                        {t.sendMessage}
                                     </button>
                                 </div>
                                 <div className="text-center sm:text-left text-[13px] text-[#555555]">
                                     <p>
-                                        Support Email: <span className="font-medium">support@cosmicforecast.com</span>
+                                        {t.supportEmail} <span className="font-medium">support@cosmicforecast.com</span>
                                         <br />
-                                        Phone: <span className="font-medium">+1 (555) 123-667</span>
+                                        {t.phone} <span className="font-medium">+1 (555) 123-667</span>
                                     </p>
                                 </div>
                             </form>
@@ -104,33 +159,33 @@ export default function ContactFooter() {
                 <div className="mx-auto max-w-7xl px-5 sm:px-8 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
                     <div>
                         <div className="flex items-center gap-2">
-                            <Image src="/images/header/logo.png" alt="AstroTamil logo" width={120} height={30} className="h-6 w-auto" />
-                            <span className="text-[22px] font-normal tracking-tight">AstroTamil</span>
+                            <Image src="/images/header/logo.png" alt="Nakshatra Talks logo" width={120} height={30} className="h-6 w-auto" />
+                            <span className="text-[22px] font-normal tracking-tight">Nakshatra Talks</span>
                         </div>
                         <p className="mt-4 text-gray-400 text-[14px] leading-6 max-w-xs">
-                            Your trusted platform for authentic astrological guidance and spiritual wisdom.
+                            {t.tagline}
                         </p>
                     </div>
                     <div>
-                        <p className="text-[16px] font-semibold mb-4">Services</p>
+                        <p className="text-[16px] font-semibold mb-4">{t.services}</p>
                         <ul className="space-y-2 text-gray-400 text-[14px]">
-                            <li>Chat with Astrologer</li>
-                            <li>Call Astrologer</li>
-                            <li>Free Kundli</li>
-                            <li>Kundli Matching</li>
+                            <li>{t.chatAstrologer}</li>
+                            <li>{t.callAstrologer}</li>
+                            <li>{t.freeKundli}</li>
+                            <li>{t.kundliMatching}</li>
                         </ul>
                     </div>
                     <div>
-                        <p className="text-[16px] font-semibold mb-4">Support</p>
+                        <p className="text-[16px] font-semibold mb-4">{t.support}</p>
                         <ul className="space-y-2 text-gray-400 text-[14px]">
-                            <li>Help Center</li>
-                            <li>Contact Us</li>
-                            <li>Privacy Policy</li>
-                            <li>Terms of Service</li>
+                            <li>{t.helpCenter}</li>
+                            <li>{t.contactUs}</li>
+                            <li>{t.privacyPolicy}</li>
+                            <li>{t.termsOfService}</li>
                         </ul>
                     </div>
                     <div>
-                        <p className="text-[16px] font-semibold mb-4">Follow Us</p>
+                        <p className="text-[16px] font-semibold mb-4">{t.followUs}</p>
                         <div className="flex items-center gap-5">
                             {/* Open-source icon SVGs */}
                             <a aria-label="Facebook" href="#" className="text-white/90 hover:text-white">
@@ -153,4 +208,5 @@ export default function ContactFooter() {
     );
 }
 
+export default ContactFooter;
 

@@ -45,8 +45,8 @@ export default function MessageList({
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-3 py-2 sm:px-4 sm:py-3">
-      <div className="mx-auto flex max-w-3xl flex-col gap-3">
+    <div className="flex-1 overflow-y-auto px-2 py-2 sm:px-3 sm:py-3 md:px-4">
+      <div className="mx-auto flex max-w-3xl flex-col gap-2.5 sm:gap-3">
         {messages.map((m) => (
           <div key={m.id}>
             {m.typing ? (
@@ -80,8 +80,9 @@ export default function MessageList({
                   onSubmit={(sign) => onDailyRasiSubmit?.({ sign, messageId: m.id })}
                   lang={lang}
                   loading={m.dailyRasiData?.loading}
-                  result={m.dailyRasiData?.result || null}
-                  error={m.dailyRasiData?.error || null}
+                  result={m.dailyRasiData?.result ?? null}
+                  error={m.dailyRasiData?.error ?? null}
+                  sign={m.dailyRasiData?.sign}
                 />
               </div>
             ) : m.ui === "rasiChartCard" ? (

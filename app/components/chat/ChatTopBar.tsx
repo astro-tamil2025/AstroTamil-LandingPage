@@ -39,9 +39,9 @@ export default function ChatTopBar() {
               <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-          <Link href="/" className="flex items-center gap-2" aria-label="AstroTamil Home">
-            <Image src="/images/header/logo.png" alt="AstroTamil logo" width={120} height={30} className="h-6 w-auto" />
-            <span className="text-[22px] font-normal tracking-tight text-black">AstroTamil</span>
+          <Link href="/" className="flex items-center gap-2" aria-label="Nakshatra Talks Home">
+            <Image src="/images/header/logo.png" alt="Nakshatra Talks logo" width={120} height={30} className="h-6 w-auto" />
+            <span className="text-[22px] font-normal tracking-tight text-black">Nakshatra Talks</span>
           </Link>
         </div>
         <div className="relative flex items-center gap-3" ref={menuRef}>

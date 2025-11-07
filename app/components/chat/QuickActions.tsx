@@ -17,12 +17,12 @@ export default function QuickActions({ onPick, lang }: QuickActionsProps) {
       ];
 
   return (
-    <div className="-mx-3 flex gap-2 overflow-x-auto px-3 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 no-scrollbar">
+    <div className="flex flex-wrap gap-2 sm:gap-2.5">
       {items.map((label) => (
         <button
           key={label}
           onClick={() => onPick(label)}
-          className="whitespace-nowrap rounded-full border border-[#f0df20]/60 bg-[#fff8d5] px-3 py-1 text-[12px] text-black hover:shadow-[0_6px_20px_rgba(240,223,32,0.15)]"
+          className="whitespace-nowrap rounded-full border border-[#f0df20]/60 bg-[#fff8d5] px-3 py-1.5 text-[13px] sm:text-[12px] font-medium text-black hover:shadow-[0_6px_20px_rgba(240,223,32,0.15)] active:scale-95 transition-transform"
         >
           {label}
         </button>

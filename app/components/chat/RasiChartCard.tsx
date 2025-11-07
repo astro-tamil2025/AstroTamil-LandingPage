@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 type Props = {
   onSubmit: (v: { datetime: string; coordinates: string; ayanamsa: 1 | 3 | 5; la?: "en" | "ta" | "ml" | "hi" }) => void;
@@ -22,6 +22,25 @@ export default function RasiChartCard({ onSubmit, lang }: Props) {
   const ayanamsa: 1 = 1;
   // Use language from header
   const la: "en" | "ta" = lang;
+  
+  // Refs for cleanup
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
+  
+  // Cleanup on unmount
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+    };
+  }, []);
 
   function toIsoWithTZ(dateStr: string, timeStr?: string) {
     // If only date provided, use default time 12:00:00
@@ -64,20 +83,38 @@ export default function RasiChartCard({ onSubmit, lang }: Props) {
     const trimmed = city.trim();
     if (!trimmed) return;
     
+    // Clean up any existing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+    }
+    
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    timeoutIdRef.current = timeoutId;
+    
+    if (!isMountedRef.current) return;
     setGeocoding(true);
     setGeocodeError("");
     
     try {
       const params = new URLSearchParams({ city: trimmed });
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
       
       const resp = await fetch(`/api/utils/geocode?${params.toString()}`, {
         method: "GET",
         cache: "no-store",
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
+      
+      if (timeoutIdRef.current === timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutIdRef.current = null;
+      }
+      
+      if (!isMountedRef.current || controller.signal.aborted) return;
       
       if (!resp.ok) {
         const errData = await resp.json().catch(() => ({} as any));
@@ -89,22 +126,35 @@ export default function RasiChartCard({ onSubmit, lang }: Props) {
         throw new Error(lang === "ta" ? "ஆயத்தொலைவுகள் கிடைக்கவில்லை" : "Coordinates not found");
       }
       
-      setCoordinates(`${data.lat},${data.lon}`);
+      const coordString = `${data.lat},${data.lon}`;
+      
+      if (!isMountedRef.current || controller.signal.aborted) return;
+      
+      setCoordinates(coordString);
       setGeocoding(false);
-      handleFinalSubmit();
+      // Pass coordinates directly to avoid race condition
+      handleFinalSubmit(coordString);
     } catch (e: any) {
+      if (!isMountedRef.current || controller.signal.aborted) return;
+      
       const msg = e?.name === "AbortError" 
         ? (lang === "ta" ? "நேரம் முடிந்தது" : "Timeout")
         : e?.message || (lang === "ta" ? "பிழை" : "Error");
       setGeocodeError(msg);
       setGeocoding(false);
+    } finally {
+      abortControllerRef.current = null;
+      if (timeoutIdRef.current === timeoutId) {
+        timeoutIdRef.current = null;
+      }
     }
   }
 
-  function handleFinalSubmit() {
-    if (!dateOnly || !coordinates) return;
+  function handleFinalSubmit(coordsOverride?: string) {
+    const coordsToUse = coordsOverride ?? coordinates;
+    if (!dateOnly || !coordsToUse) return;
     const datetime = toIsoWithTZ(dateOnly, hasTime ? timeOnly : undefined);
-    onSubmit({ datetime, coordinates, ayanamsa, la });
+    onSubmit({ datetime, coordinates: coordsToUse, ayanamsa, la });
   }
 
   const step1Disabled = geocoding || !dateOnly;
@@ -112,7 +162,7 @@ export default function RasiChartCard({ onSubmit, lang }: Props) {
   const step3Disabled = geocoding || !city.trim();
 
   return (
-    <div className="rounded-xl border-2 border-[#f0df20] bg-gradient-to-br from-[#fff3a6] to-[#fff8d5] p-4 shadow-[0_8px_24px_rgba(240,223,32,0.2)] w-[min(100%,28rem)] text-black">
+    <div className="rounded-xl border-2 border-[#f0df20] bg-gradient-to-br from-[#fff3a6] to-[#fff8d5] p-3 sm:p-4 shadow-[0_8px_24px_rgba(240,223,32,0.2)] w-full max-w-[28rem] text-black">
       <div className="mb-4 flex items-center justify-between">
         <div className="font-bold text-base">{lang === "ta" ? "ராசி விளக்கப்படம்" : "RASI Chart"}</div>
         <div className="flex gap-1 text-xs opacity-70 bg-white/60 px-2 py-1 rounded-full">

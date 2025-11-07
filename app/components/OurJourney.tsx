@@ -1,8 +1,49 @@
-import Image from "next/image";
+"use client";
 
-export default function OurJourney() {
+import Image from "next/image";
+import { useLanguage } from "../hooks/useLanguage";
+
+const translations = {
+    en: {
+        title: "Our Journey: Guiding You with Ancient Wisdom",
+        meetGuruji: "Meet Guruji Krishnan",
+        quote: "\"Astrology is the lamp that lights the path to life.\"",
+        description: "Founded to revive Tamil Vedic astrology with lineage and authenticity. With ethical guidance, we accompany your journey with compassionate counsel.",
+        philosophy: "Our Philosophy",
+        authenticity: "Authenticity:",
+        authenticityDesc: "Rooted in ancient Tamil scriptures.",
+        personalization: "Personalization:",
+        personalizationDesc: "Tailored guidance for your unique journey.",
+        trust: "Trust:",
+        trustDesc: "Confidential, ethical guidance",
+        meetAstrologers: "Meet Our Top-Rated Astrologers",
+        consultNow: "Consult Now",
+    },
+    ta: {
+        title: "எங்கள் பயணம்: பழங்கால ஞானத்துடன் உங்களை வழிநடத்துதல்",
+        meetGuruji: "குருஜி கிருஷ்ணனைச் சந்திக்கவும்",
+        quote: "\"ஜோதிடம் என்பது வாழ்க்கையின் பாதையை ஒளிரச் செய்யும் விளக்கு.\"",
+        description: "வம்சாவளி மற்றும் நம்பகத்தன்மையுடன் தமிழ் வேத ஜோதிடத்தை மீட்டெடுக்க நிறுவப்பட்டது. நெறிமுறை வழிகாட்டுதலுடன், இரக்கமுள்ள ஆலோசனையுடன் உங்கள் பயணத்தை நாங்கள் உடன் செல்கிறோம்.",
+        philosophy: "எங்கள் தத்துவம்",
+        authenticity: "நம்பகத்தன்மை:",
+        authenticityDesc: "பழங்கால தமிழ் சமஸ்கிருதங்களில் வேரூன்றியது.",
+        personalization: "தனிப்பயனாக்கம்:",
+        personalizationDesc: "உங்கள் தனித்துவமான பயணத்திற்கான தனிப்பயனாக்கப்பட்ட வழிகாட்டுதல்.",
+        trust: "நம்பிக்கை:",
+        trustDesc: "ரகசிய, நெறிமுறை வழிகாட்டுதல்",
+        meetAstrologers: "எங்கள் முதன்மை மதிப்பிடப்பட்ட ஜோதிடர்களைச் சந்திக்கவும்",
+        consultNow: "இப்போது ஆலோசனை",
+    },
+};
+
+function OurJourney() {
+    const lang = useLanguage();
+    // Runtime validation/fallback to ensure safe access
+    const safeLang = lang === "ta" ? "ta" : "en";
+    const t = translations[safeLang];
+    
     return (
-        <section className="relative overflow-hidden">
+        <section id="astrologers" className="relative overflow-hidden scroll-mt-16">
             {/* Background: reuse Hero gradient */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,#E5E7EB_0%,#F6E095_100%)]" />
@@ -13,7 +54,7 @@ export default function OurJourney() {
                 {/* Heading from Figma context */}
                 <div className="text-center mb-8 sm:mb-10">
                     <h2 className="text-[32px] sm:text-[36px] font-bold text-black">
-                        Our Journey: Guiding You with Ancient Wisdom
+                        {t.title}
                     </h2>
                 </div>
 
@@ -26,11 +67,10 @@ export default function OurJourney() {
                                 <Image src="/images/astrologer/guruji-krishnan.png" alt="Guruji Krishnan" width={112} height={112} className="h-full w-full object-cover" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-[18px] sm:text-[20px] font-bold text-black mb-1">Meet Guruji Krishnan</p>
-                                <p className="text-[14px] sm:text-[15px] text-black mb-3">"Astrology is the lamp that lights the path to life."</p>
+                                <p className="text-[18px] sm:text-[20px] font-bold text-black mb-1">{t.meetGuruji}</p>
+                                <p className="text-[14px] sm:text-[15px] text-black mb-3">{t.quote}</p>
                                 <p className="text-[14px] leading-6 text-black">
-                                    Founded to revive Tamil Vedic astrology with lineage and authenticity. With
-                                    ethical guidance, we accompany your journey with compassionate counsel.
+                                    {t.description}
                                 </p>
                             </div>
                         </div>
@@ -38,7 +78,7 @@ export default function OurJourney() {
 
                     {/* Right Panel: Philosophy */}
                     <div className="bg-white/90 rounded-[20px] p-6 sm:p-8 shadow-[0_10px_24px_rgba(0,0,0,0.06)]">
-                        <p className="text-[18px] sm:text-[20px] font-bold text-black mb-4">Our Philosophy</p>
+                        <p className="text-[18px] sm:text-[20px] font-bold text-black mb-4">{t.philosophy}</p>
                         <div className="space-y-4">
                             {/* Authenticity */}
                             <div className="flex items-center gap-4 py-1">
@@ -46,7 +86,7 @@ export default function OurJourney() {
                                     <Image src="/images/astrologer/star.svg" alt="Authenticity" width={22} height={22} />
                                 </div>
                                 <p className="text-[15px] leading-normal text-black">
-                                    <span className="font-semibold">Authenticity:</span> Rooted in ancient Tamil scriptures.
+                                    <span className="font-semibold">{t.authenticity}</span> {t.authenticityDesc}
                                 </p>
                             </div>
                             {/* Personalization */}
@@ -55,7 +95,7 @@ export default function OurJourney() {
                                     <Image src="/images/astrologer/book.svg" alt="Personalization" width={22} height={22} />
                                 </div>
                                 <p className="text-[15px] leading-normal text-black">
-                                    <span className="font-semibold">Personalization:</span> Tailored guidance for your unique journey.
+                                    <span className="font-semibold">{t.personalization}</span> {t.personalizationDesc}
                                 </p>
                             </div>
                             {/* Trust */}
@@ -64,7 +104,7 @@ export default function OurJourney() {
                                     <Image src="/images/astrologer/phone.svg" alt="Trust" width={22} height={22} />
                                 </div>
                                 <p className="text-[15px] leading-normal text-black">
-                                    <span className="font-semibold">Trust:</span> Confidential, ethical guidance
+                                    <span className="font-semibold">{t.trust}</span> {t.trustDesc}
                                 </p>
                             </div>
                         </div>
@@ -74,7 +114,7 @@ export default function OurJourney() {
                 {/* Bottom: floating cards (no container bg) */}
                 <div className="mt-10 sm:mt-12">
                     <div className="text-center mb-8">
-                        <p className="text-[22px] sm:text-[26px] font-bold text-black">Meet Our Top-Rated Astrologers</p>
+                        <p className="text-[22px] sm:text-[26px] font-bold text-black">{t.meetAstrologers}</p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
@@ -99,7 +139,7 @@ export default function OurJourney() {
                                         ))}
                                     </div>
                                     <button className="inline-flex items-center justify-center rounded-[10px] bg-[#f0df20] px-6 py-2.5 text-[16px] font-medium text-black shadow-[0_6px_20px_rgba(240,223,32,0.25)]">
-                                        Consult Now
+                                        {t.consultNow}
                                     </button>
                                 </div>
                             </div>
@@ -111,4 +151,5 @@ export default function OurJourney() {
     );
 }
 
+export default OurJourney;
 

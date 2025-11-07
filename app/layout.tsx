@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Playfair_Display } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import Header from "./components/Header";
 
@@ -15,7 +16,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "AstroTamil",
+  title: "Nakshatra Talks",
   description: "Daily horoscopes and astrology guidance in Tamil.",
   icons: {
     icon: "/images/header/logo.png",
@@ -28,11 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body
         className={`${playfair.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
+        <Suspense fallback={<div className="h-16" />}>
+          <Header />
+        </Suspense>
         {children}
       </body>
     </html>

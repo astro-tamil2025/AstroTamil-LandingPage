@@ -112,15 +112,15 @@ export default function BirthDetailsCard({ onSubmit, lang }: Props) {
   const step3Disabled = geocoding || !city.trim();
 
   return (
-    <div className="rounded-xl border-2 border-[#f0df20] bg-gradient-to-br from-[#fff3a6] to-[#fff8d5] p-4 shadow-[0_8px_24px_rgba(240,223,32,0.2)] w-[min(100%,28rem)] text-black">
+    <div className="rounded-xl border-2 border-[#f0df20] bg-gradient-to-br from-[#fff3a6] to-[#fff8d5] p-3 sm:p-4 shadow-[0_8px_24px_rgba(240,223,32,0.2)] w-full max-w-[28rem] text-black">
       <div className="mb-4 flex items-center justify-between">
         <div className="font-bold text-base">{lang === "ta" ? "பிறந்த விவரங்கள்" : "Birth Details"}</div>
-        <div className="flex gap-1 text-xs opacity-70 bg-white/60 px-2 py-1 rounded-full">
-          <span className={step === 1 ? "font-bold text-[#f0df20]" : ""}>1</span>
+        <div className="flex gap-1 text-xs text-gray-700 bg-white/60 px-2 py-1 rounded-full">
+          <span className={step === 1 ? "font-bold text-black bg-[#f0df20] px-1.5 py-0.5 rounded" : ""}>1</span>
           <span>/</span>
-          <span className={step === 2 ? "font-bold text-[#f0df20]" : ""}>2</span>
+          <span className={step === 2 ? "font-bold text-black bg-[#f0df20] px-1.5 py-0.5 rounded" : ""}>2</span>
           <span>/</span>
-          <span className={step === 3 ? "font-bold text-[#f0df20]" : ""}>3</span>
+          <span className={step === 3 ? "font-bold text-black bg-[#f0df20] px-1.5 py-0.5 rounded" : ""}>3</span>
         </div>
       </div>
 

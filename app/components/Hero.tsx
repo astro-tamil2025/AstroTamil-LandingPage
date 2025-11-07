@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useLanguage } from "../hooks/useLanguage";
+import { getHeroTranslations } from "../i18n/hero";
 
 type CoinCardProps = {
     label: string;
@@ -33,12 +36,13 @@ function CoinCard({ label, imgSrc }: CoinCardProps) {
     );
 }
 
-import { useRouter } from "next/navigation";
-
-export default function Hero() {
+function Hero() {
     const router = useRouter();
+    const lang = useLanguage();
+    const t = getHeroTranslations(lang);
+    
     return (
-        <section className="relative min-h-[600px] sm:min-h-[700px] overflow-hidden">
+        <section id="home" className="relative min-h-[600px] sm:min-h-[700px] overflow-hidden scroll-mt-16">
             {/* Background: gradient fallback */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,#E5E7EB_0%,#F6E095_100%)]" />
@@ -63,11 +67,15 @@ export default function Hero() {
                 <div className="grid grid-cols-1 md:grid-cols-3 items-start md:items-center gap-6 md:gap-10">
                     {/* Left copy (headline + subtext + chatbot) */}
                     <div className="order-[0] md:order-[0] md:col-start-1 md:row-start-1">
-                        <h1 className="text-[#46443f] font-semibold leading-tight tracking-tight text-[clamp(2rem,4.5vw,3.5rem)]">
-                            <span className="block whitespace-nowrap">Connect with</span>
-                            <span className="block whitespace-nowrap">Ancient Wisdom</span>
+                        <h1 className={`text-[#46443f] font-semibold leading-tight tracking-tight ${
+                            lang === "ta" 
+                                ? "text-[clamp(1.5rem,3.5vw,2.5rem)]" 
+                                : "text-[clamp(2rem,4.5vw,3.5rem)]"
+                        }`}>
+                            <span className={`block ${lang === "ta" ? "" : "whitespace-nowrap"}`}>{t.headline1}</span>
+                            <span className={`block ${lang === "ta" ? "" : "whitespace-nowrap"}`}>{t.headline2}</span>
                         </h1>
-                        <p className="mt-3 text-[#555] text-base sm:text-lg">Trusted Astrologers & Instant Solutions</p>
+                        <p className="mt-3 text-[#555] text-base sm:text-lg">{t.subtext}</p>
 
                         {/* Chatbot card - desktop/tablet placement (hidden on mobile) */}
                         <div className="hidden md:block mt-4 w-full max-w-sm rounded-2xl border border-[#f0df20]/60 bg-[#fff8d5] p-4 shadow-[0_6px_20px_rgba(240,223,32,0.15)]">
@@ -78,10 +86,10 @@ export default function Hero() {
                                     </div>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm leading-snug text-black">Hi I’m AstroBot! How can I help you today?</p>
+                                    <p className="text-sm leading-snug text-black">{t.chatbotGreeting}</p>
                                     <div className="mt-4 flex flex-wrap gap-3">
-                                        <button onClick={() => {}} aria-label="Get birth chart reading" className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">Birth Chart</button>
-                                        <button onClick={() => {}} aria-label="Get kundli reading" className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">Kundli</button>
+                                        <button onClick={() => router.push(`/birth-chart?lang=${lang}`)} aria-label={t.birthChartAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.birthChart}</button>
+                                        <button onClick={() => router.push(`/kundli?lang=${lang}`)} aria-label={t.kundliAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.kundli}</button>
                                     </div>
                                 </div>
                             </div>
@@ -98,8 +106,8 @@ export default function Hero() {
                             className="w-[220px] sm:w-[280px] md:w-[320px] h-auto"
                             priority
                         />
-                        <button onClick={() => router.push("/chat")} aria-label="Start chat with astrologer" className="mt-5 inline-flex items-center justify-center rounded-full bg-[#f0df20] px-6 py-2.5 text-sm sm:text-base font-semibold text-black shadow-[0_10px_22px_rgba(240,223,32,0.35)]">
-                            CHAT NOW
+                        <button onClick={() => router.push(`/chat?lang=${lang}`)} aria-label={t.startChatAriaLabel} className="mt-5 inline-flex items-center justify-center rounded-full bg-[#f0df20] px-6 py-2.5 text-sm sm:text-base font-semibold text-black shadow-[0_10px_22px_rgba(240,223,32,0.35)]">
+                            {t.chatNow}
                         </button>
                         {/* Chatbot card - mobile placement (below button) */}
                         <div className="md:hidden mt-4 w-full max-w-sm rounded-2xl border border-[#f0df20]/60 bg-[#fff8d5] p-4 shadow-[0_6px_20px_rgba(240,223,32,0.15)]">
@@ -110,10 +118,10 @@ export default function Hero() {
                                     </div>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm leading-snug text-black">Hi I’m AstroBot! How can I help you today?</p>
+                                    <p className="text-sm leading-snug text-black">{t.chatbotGreeting}</p>
                                     <div className="mt-4 flex flex-wrap gap-3">
-                                        <button onClick={() => {}} aria-label="Get birth chart reading" className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">Birth Chart</button>
-                                        <button onClick={() => {}} aria-label="Get kundli reading" className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">Kundli</button>
+                                        <button onClick={() => router.push(`/birth-chart?lang=${lang}`)} aria-label={t.birthChartAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.birthChart}</button>
+                                        <button onClick={() => router.push(`/kundli?lang=${lang}`)} aria-label={t.kundliAriaLabel} className="rounded-full bg-[#f0df20] px-3 py-1 text-xs text-black">{t.kundli}</button>
                                     </div>
                                 </div>
                             </div>
@@ -135,16 +143,16 @@ export default function Hero() {
                 {/* Bottom coin cards */}
                 <div className="mt-6 sm:mt-8 md:mt-10 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl md:max-w-6xl pb-[max(1.5rem,calc(1.5rem+env(safe-area-inset-bottom)))] md:pb-0 pl-[max(1.25rem,calc(1.25rem+env(safe-area-inset-left)))] pr-[max(1.25rem,calc(1.25rem+env(safe-area-inset-right)))] md:pl-0 md:pr-0">
                     <div className="w-full rounded-[48px] border-2 border-[#f0df20] bg-white/90 px-4 py-2 sm:px-5 sm:py-2.5 min-w-0 justify-self-stretch md:px-5">
-                        <CoinCard label="Chat with Astrologer" imgSrc="/images/hero-images/chat-with-astrologers.png" />
+                        <CoinCard label={t.coin1} imgSrc="/images/hero-images/chat-with-astrologers.png" />
                     </div>
                     <div className="w-full rounded-[48px] border-2 border-[#f0df20] bg-white/90 px-4 py-2 sm:px-5 sm:py-2.5 min-w-0 justify-self-stretch md:px-5">
-                        <CoinCard label="Talk to Astrologer" imgSrc="/images/hero-images/talk-to-astrologers.png" />
+                        <CoinCard label={t.coin2} imgSrc="/images/hero-images/talk-to-astrologers.png" />
                     </div>
                     <div className="w-full rounded-[48px] border-2 border-[#f0df20] bg-white/90 px-4 py-2 sm:px-5 sm:py-2.5 min-w-0 justify-self-stretch md:px-5">
-                        <CoinCard label="Live sessions" imgSrc="/images/hero-images/live-sessions.png" />
+                        <CoinCard label={t.coin3} imgSrc="/images/hero-images/live-sessions.png" />
                     </div>
                     <div className="w-full rounded-[48px] border-2 border-[#f0df20] bg-white/90 px-4 py-2 sm:px-5 sm:py-2.5 min-w-0 justify-self-stretch md:px-5">
-                        <CoinCard label="Book A Pooja" imgSrc="/images/hero-images/book-a-pooja.png" />
+                        <CoinCard label={t.coin4} imgSrc="/images/hero-images/book-a-pooja.png" />
                     </div>
                 </div>
             </div>
@@ -157,4 +165,5 @@ export default function Hero() {
     );
 }
 
+export default Hero;
 

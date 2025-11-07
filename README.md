@@ -1,4 +1,8 @@
+# Nakshatra Talks
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+Nakshatra Talks is your trusted platform for authentic astrological guidance and spiritual wisdom, providing daily horoscopes, astrology consultations, and cosmic insights.
 
 ## Getting Started
 

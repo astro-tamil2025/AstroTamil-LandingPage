@@ -33,14 +33,14 @@ export default function ChartDisplay({ svg }: Props) {
   if (!svg) return null;
 
   return (
-    <div className="rounded-xl border-2 border-[#f0df20] bg-gradient-to-br from-[#fff3a6] to-[#fff8d5] p-4 shadow-[0_8px_24px_rgba(240,223,32,0.2)] w-[min(100%,28rem)] text-black">
-      <div className="font-bold mb-3 text-base flex items-center gap-2">
+    <div className="rounded-xl border-2 border-[#f0df20] bg-gradient-to-br from-[#fff3a6] to-[#fff8d5] p-3 sm:p-4 shadow-[0_8px_24px_rgba(240,223,32,0.2)] w-full max-w-[28rem] text-black">
+      <div className="font-bold mb-3 text-sm sm:text-base flex items-center gap-2">
         <span>RASI Chart</span>
         <div className="flex-1 h-[1px] bg-black/10"></div>
       </div>
       <div 
         className="w-full max-w-full overflow-auto flex justify-center bg-white/50 rounded-lg p-2"
-        style={{ maxHeight: "500px" }}
+        style={{ maxHeight: "400px" }}
         dangerouslySetInnerHTML={{ __html: processedSvg }}
       />
     </div>
